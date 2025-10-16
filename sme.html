@@ -1,0 +1,1535 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CreditSetu - Credit for MSMEs</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 420px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+
+        .screen {
+            display: none;
+            animation: fadeIn 0.4s ease-in;
+        }
+
+        .screen.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px 20px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 28px;
+            margin-bottom: 5px;
+        }
+
+        .header p {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+
+        .content {
+            padding: 30px 20px;
+        }
+
+        .logo {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .logo-text {
+            font-size: 36px;
+            font-weight: bold;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .tagline {
+            color: #666;
+            font-size: 14px;
+            margin-top: 5px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            color: #333;
+            font-weight: 600;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 14px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 16px;
+            transition: all 0.3s;
+        }
+
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .btn {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.3);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        .btn-secondary {
+            background: white;
+            color: #667eea;
+            border: 2px solid #667eea;
+            margin-top: 10px;
+        }
+
+        .btn-secondary:hover {
+            background: #f5f7ff;
+        }
+
+        .feature-card {
+            background: #f8f9ff;
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 15px;
+            border-left: 4px solid #667eea;
+        }
+
+        .feature-card h3 {
+            color: #667eea;
+            font-size: 16px;
+            margin-bottom: 5px;
+        }
+
+        .feature-card p {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .loan-offer {
+            background: white;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 15px;
+            cursor: pointer;
+            transition: all 0.3s;
+            position: relative;
+        }
+
+        .loan-offer:hover {
+            border-color: #667eea;
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.2);
+        }
+
+        .loan-offer.selected {
+            border-color: #667eea;
+            background: #f5f7ff;
+        }
+
+        .loan-offer .bank-name {
+            font-weight: 600;
+            font-size: 18px;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .loan-offer .details {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+        }
+
+        .loan-offer .label {
+            color: #666;
+            font-size: 13px;
+        }
+
+        .loan-offer .value {
+            color: #333;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .loan-offer .badge {
+            display: inline-block;
+            background: #4caf50;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            margin-top: 5px;
+        }
+
+        .progress-bar {
+            height: 6px;
+            background: #e0e0e0;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 20px;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            transition: width 0.4s ease;
+        }
+
+        .step-indicator {
+            text-align: center;
+            color: #666;
+            font-size: 13px;
+            margin-bottom: 25px;
+        }
+
+        .document-upload {
+            border: 2px dashed #667eea;
+            border-radius: 12px;
+            padding: 30px 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-bottom: 15px;
+        }
+
+        .document-upload:hover {
+            background: #f5f7ff;
+        }
+
+        .document-upload.uploaded {
+            border-style: solid;
+            background: #f0fdf4;
+            border-color: #4caf50;
+        }
+
+        .document-upload .icon {
+            font-size: 48px;
+            margin-bottom: 10px;
+        }
+
+        .status-card {
+            background: linear-gradient(135deg, #4caf50 0%, #45a049 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 12px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .status-card h2 {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+
+        .status-card p {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+
+        .info-box {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        .info-box p {
+            color: #856404;
+            font-size: 13px;
+            line-height: 1.6;
+        }
+
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px 0;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .summary-row:last-child {
+            border-bottom: none;
+            font-weight: 600;
+            font-size: 18px;
+            color: #667eea;
+        }
+
+        .summary-row .label {
+            color: #666;
+        }
+
+        .summary-row .value {
+            color: #333;
+            font-weight: 600;
+        }
+
+        .timeline {
+            position: relative;
+            padding-left: 30px;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 8px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: #e0e0e0;
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 25px;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -26px;
+            top: 5px;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background: white;
+            border: 3px solid #667eea;
+        }
+
+        .timeline-item.completed::before {
+            background: #667eea;
+        }
+
+        .timeline-item h4 {
+            color: #333;
+            font-size: 15px;
+            margin-bottom: 3px;
+        }
+
+        .timeline-item p {
+            color: #666;
+            font-size: 13px;
+        }
+
+        .repayment-card {
+            background: #f8f9ff;
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 15px;
+        }
+
+        .repayment-card h3 {
+            color: #333;
+            font-size: 16px;
+            margin-bottom: 15px;
+        }
+
+        .repayment-schedule {
+            background: white;
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .repayment-schedule .date {
+            color: #666;
+            font-size: 13px;
+        }
+
+        .repayment-schedule .amount {
+            color: #333;
+            font-weight: 600;
+            font-size: 15px;
+        }
+
+        .toggle-switch {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        .toggle-switch label {
+            margin-bottom: 0;
+        }
+
+        .switch {
+            position: relative;
+            width: 50px;
+            height: 28px;
+        }
+
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 28px;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 20px;
+            width: 20px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+
+        input:checked + .slider {
+            background-color: #667eea;
+        }
+
+        input:checked + .slider:before {
+            transform: translateX(22px);
+        }
+
+        .language-selector {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .language-btn {
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            background: white;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 14px;
+        }
+
+        .language-btn:hover {
+            border-color: #667eea;
+            background: #f5f7ff;
+        }
+
+        .language-btn.selected {
+            border-color: #667eea;
+            background: #667eea;
+            color: white;
+        }
+
+        .ai-analysis {
+            background: linear-gradient(135deg, #667eea15 0%, #764ba215 100%);
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+        }
+
+        .ai-analysis h3 {
+            color: #667eea;
+            font-size: 16px;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .score-circle {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: white;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin: 20px auto;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .score-circle .score {
+            font-size: 36px;
+            font-weight: bold;
+            color: #667eea;
+        }
+
+        .score-circle .label {
+            font-size: 12px;
+            color: #666;
+        }
+
+        .video-kyc-placeholder {
+            background: #000;
+            border-radius: 12px;
+            aspect-ratio: 4/3;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .video-kyc-placeholder::before {
+            content: '📹';
+            font-size: 64px;
+        }
+
+        .checklist {
+            list-style: none;
+        }
+
+        .checklist li {
+            padding: 12px 0;
+            border-bottom: 1px solid #e0e0e0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .checklist li:last-child {
+            border-bottom: none;
+        }
+
+        .checklist li::before {
+            content: '✓';
+            color: white;
+            background: #4caf50;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: #999;
+            font-size: 12px;
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                border-radius: 0;
+            }
+            
+            body {
+                padding: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Screen 1: Welcome/Language Selection -->
+        <div class="screen active" id="screen-welcome">
+            <div class="header">
+                <h1>Welcome to CreditSetu</h1>
+                <p>Credit Made Simple for MSMEs</p>
+            </div>
+            <div class="content">
+                <div class="logo">
+                    <div class="logo-text">💳 CreditSetu</div>
+                    <p class="tagline">Your Bridge to Business Credit</p>
+                </div>
+
+                <h3 style="margin-bottom: 15px; color: #333;">Select Your Language</h3>
+                <div class="language-selector">
+                    <button class="language-btn selected" data-lang="en">🇬🇧 English</button>
+                    <button class="language-btn" data-lang="hi">🇮🇳 हिंदी</button>
+                    <button class="language-btn" data-lang="ta">🇮🇳 தமிழ்</button>
+                    <button class="language-btn" data-lang="te">🇮🇳 తెలుగు</button>
+                    <button class="language-btn" data-lang="gu">🇮🇳 ગુજરાતી</button>
+                    <button class="language-btn" data-lang="mr">🇮🇳 मराठी</button>
+                </div>
+
+                <div class="feature-card">
+                    <h3>⚡ Quick Approval</h3>
+                    <p>Get loan approval in 24 hours</p>
+                </div>
+                <div class="feature-card">
+                    <h3>📊 AI-Powered Credit</h3>
+                    <p>Based on your business data, not just paperwork</p>
+                </div>
+                <div class="feature-card">
+                    <h3>💰 Best Rates</h3>
+                    <p>Compare offers from 25+ lenders</p>
+                </div>
+
+                <button class="btn" onclick="goToScreen('screen-onboarding')">Get Started</button>
+                <button class="btn btn-secondary" onclick="goToScreen('screen-login')">Already Have Account</button>
+            </div>
+        </div>
+
+        <!-- Screen 2: Business Onboarding -->
+        <div class="screen" id="screen-onboarding">
+            <div class="header">
+                <h1>Tell Us About Your Business</h1>
+                <p>Step 1 of 6</p>
+            </div>
+            <div class="content">
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: 16%"></div>
+                </div>
+
+                <div class="form-group">
+                    <label>Business Name *</label>
+                    <input type="text" id="businessName" placeholder="Enter your business name">
+                </div>
+
+                <div class="form-group">
+                    <label>Business Type *</label>
+                    <select id="businessType">
+                        <option value="">Select business type</option>
+                        <option value="manufacturer">Manufacturer</option>
+                        <option value="trader">Trader/Retailer</option>
+                        <option value="service">Service Provider</option>
+                        <option value="ecommerce">E-commerce Seller</option>
+                        <option value="restaurant">Restaurant/Food</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Monthly Revenue (Approx) *</label>
+                    <select id="monthlyRevenue">
+                        <option value="">Select range</option>
+                        <option value="0-1">₹0 - 1 Lakh</option>
+                        <option value="1-5">₹1 - 5 Lakhs</option>
+                        <option value="5-10">₹5 - 10 Lakhs</option>
+                        <option value="10-25">₹10 - 25 Lakhs</option>
+                        <option value="25-50">₹25 - 50 Lakhs</option>
+                        <option value="50+">₹50 Lakhs+</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>GST Number (Optional)</label>
+                    <input type="text" id="gstNumber" placeholder="Enter GST number if registered">
+                </div>
+
+                <div class="form-group">
+                    <label>Mobile Number *</label>
+                    <input type="tel" id="mobileNumber" placeholder="Enter mobile number">
+                </div>
+
+                <button class="btn" onclick="validateAndNext('screen-onboarding', 'screen-loan-purpose')">Continue</button>
+            </div>
+        </div>
+
+        <!-- Screen 3: Loan Purpose -->
+        <div class="screen" id="screen-loan-purpose">
+            <div class="header">
+                <h1>What Do You Need Credit For?</h1>
+                <p>Step 2 of 6</p>
+            </div>
+            <div class="content">
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: 33%"></div>
+                </div>
+
+                <div class="form-group">
+                    <label>Loan Purpose *</label>
+                    <select id="loanPurpose" onchange="updateLoanDetails()">
+                        <option value="">Select purpose</option>
+                        <option value="working-capital">Working Capital</option>
+                        <option value="inventory">Inventory Purchase</option>
+                        <option value="equipment">Equipment/Machinery</option>
+                        <option value="invoice">Invoice Financing</option>
+                        <option value="expansion">Business Expansion</option>
+                        <option value="gst-advance">GST Refund Advance</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Loan Amount Needed *</label>
+                    <input type="number" id="loanAmount" placeholder="Enter amount (₹)" onchange="updateLoanDetails()">
+                </div>
+
+                <div class="form-group">
+                    <label>Preferred Tenure *</label>
+                    <select id="loanTenure" onchange="updateLoanDetails()">
+                        <option value="">Select tenure</option>
+                        <option value="7">7 Days</option>
+                        <option value="15">15 Days</option>
+                        <option value="30">30 Days</option>
+                        <option value="60">60 Days</option>
+                        <option value="90">90 Days</option>
+                        <option value="180">6 Months</option>
+                        <option value="365">12 Months</option>
+                        <option value="730">24 Months</option>
+                    </select>
+                </div>
+
+                <div class="info-box" id="loanDetailsBox" style="display: none;">
+                    <p><strong>Estimated EMI:</strong> <span id="estimatedEMI">-</span></p>
+                    <p><strong>Interest Rate Range:</strong> 12% - 18% p.a.</p>
+                </div>
+
+                <button class="btn" onclick="goToScreen('screen-data-consent')">Continue</button>
+                <button class="btn btn-secondary" onclick="goToScreen('screen-onboarding')">Back</button>
+            </div>
+        </div>
+
+        <!-- Screen 4: Data Consent & Integration -->
+        <div class="screen" id="screen-data-consent">
+            <div class="header">
+                <h1>Connect Your Business Data</h1>
+                <p>Step 3 of 6</p>
+            </div>
+            <div class="content">
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: 50%"></div>
+                </div>
+
+                <div class="info-box">
+                    <p>To provide you the best loan offers, we need to analyze your business health. All data is encrypted and used only for credit assessment.</p>
+                </div>
+
+                <h3 style="margin-bottom: 15px; color: #333;">Select Data Sources</h3>
+
+                <div class="feature-card">
+                    <div class="toggle-switch">
+                        <div>
+                            <h3>Bank Statements (via AA)</h3>
+                            <p style="font-size: 13px; color: #666;">Last 6 months transaction data</p>
+                        </div>
+                        <label class="switch">
+                            <input type="checkbox" id="consentBank" checked>
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="feature-card">
+                    <div class="toggle-switch">
+                        <div>
+                            <h3>GST Returns</h3>
+                            <p style="font-size: 13px; color: #666;">Sales & purchase data</p>
+                        </div>
+                        <label class="switch">
+                            <input type="checkbox" id="consentGST" checked>
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="feature-card">
+                    <div class="toggle-switch">
+                        <div>
+                            <h3>UPI Transactions</h3>
+                            <p style="font-size: 13px; color: #666;">Daily business receipts</p>
+                        </div>
+                        <label class="switch">
+                            <input type="checkbox" id="consentUPI" checked>
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="feature-card">
+                    <div class="toggle-switch">
+                        <div>
+                            <h3>E-commerce Data</h3>
+                            <p style="font-size: 13px; color: #666;">Amazon/Flipkart sales (if applicable)</p>
+                        </div>
+                        <label class="switch">
+                            <input type="checkbox" id="consentEcommerce">
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                </div>
+
+                <button class="btn" onclick="processDataConsent()">Fetch My Data</button>
+                <button class="btn btn-secondary" onclick="goToScreen('screen-loan-purpose')">Back</button>
+            </div>
+        </div>
+
+        <!-- Screen 5: AI Credit Analysis -->
+        <div class="screen" id="screen-analysis">
+            <div class="header">
+                <h1>Analyzing Your Business</h1>
+                <p>Step 4 of 6</p>
+            </div>
+            <div class="content">
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: 66%"></div>
+                </div>
+
+                <div class="ai-analysis">
+                    <h3>🤖 AI Credit Score</h3>
+                    
+                    <div class="score-circle">
+                        <div class="score">742</div>
+                        <div class="label">CreditSetu Score</div>
+                    </div>
+
+                    <ul class="checklist">
+                        <li>Bank transaction analysis complete</li>
+                        <li>GST filing consistency verified</li>
+                        <li>Cash flow pattern analyzed</li>
+                        <li>Business health score calculated</li>
+                        <li>Risk assessment completed</li>
+                    </ul>
+                </div>
+
+                <div class="feature-card">
+                    <h3>Your Business Strengths</h3>
+                    <p>✓ Consistent monthly revenue (₹8-12L)</p>
+                    <p>✓ Regular GST filing for 18 months</p>
+                    <p>✓ Positive cash flow trend</p>
+                    <p>✓ Good customer reviews (4.3★)</p>
+                </div>
+
+                <div class="info-box">
+                    <p>Based on your profile, you're eligible for loans between ₹2L - ₹15L from multiple lenders.</p>
+                </div>
+
+                <button class="btn" onclick="goToScreen('screen-offers')">View Loan Offers</button>
+            </div>
+        </div>
+
+        <!-- Screen 6: Loan Offers -->
+        <div class="screen" id="screen-offers">
+            <div class="header">
+                <h1>Choose Your Best Offer</h1>
+                <p>Step 5 of 6</p>
+            </div>
+            <div class="content">
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: 83%"></div>
+                </div>
+
+                <div class="info-box">
+                    <p>10 lenders are competing for your business! Select the offer that works best for you.</p>
+                </div>
+
+                <div class="loan-offer" onclick="selectOffer(this, 'sbi')">
+                    <div class="bank-name">🏦 State Bank of India</div>
+                    <div class="details">
+                        <span class="label">Loan Amount</span>
+                        <span class="value">₹8,00,000</span>
+                    </div>
+                    <div class="details">
+                        <span class="label">Interest Rate</span>
+                        <span class="value">11.5% p.a.</span>
+                    </div>
+                    <div class="details">
+                        <span class="label">Tenure</span>
+                        <span class="value">90 Days</span>
+                    </div>
+                    <div class="details">
+                        <span class="label">Processing Fee</span>
+                        <span class="value">₹5,000</span>
+                    </div>
+                    <span class="badge">Lowest Rate</span>
+                </div>
+
+                <div class="loan-offer" onclick="selectOffer(this, 'tata')">
+                    <div class="bank-name">🏦 Tata Capital</div>
+                    <div class="details">
+                        <span class="label">Loan Amount</span>
+                        <span class="value">₹8,00,000</span>
+                    </div>
+                    <div class="details">
+                        <span class="label">Interest Rate</span>
+                        <span class="value">13.5% p.a.</span>
+                    </div>
+                    <div class="details">
+                        <span class="label">Tenure</span>
+                        <span class="value">90 Days</span>
+                    </div>
+                    <div class="details">
+                        <span class="label">Processing Fee</span>
+                        <span class="value">₹3,000</span>
+                    </div>
+                    <span class="badge">Fastest Approval</span>
+                </div>
+
+                <div class="loan-offer" onclick="selectOffer(this, 'hdfc')">
+                    <div class="bank-name">🏦 HDFC Bank</div>
+                    <div class="details">
+                        <span class="label">Loan Amount</span>
+                        <span class="value">₹6,00,000</span>
+                    </div>
+                    <div class="details">
+                        <span class="label">Interest Rate</span>
+                        <span class="value">12.0% p.a.</span>
+                    </div>
+                    <div class="details">
+                        <span class="label">Tenure</span>
+                        <span class="value">90 Days</span>
+                    </div>
+                    <div class="details">
+                        <span class="label">Processing Fee</span>
+                        <span class="value">₹4,000</span>
+                    </div>
+                </div>
+
+                <div class="loan-offer" onclick="selectOffer(this, 'axis')">
+                    <div class="bank-name">🏦 Axis Bank</div>
+                    <div class="details">
+                        <span class="label">Loan Amount</span>
+                        <span class="value">₹7,50,000</span>
+                    </div>
+                    <div class="details">
+                        <span class="label">Interest Rate</span>
+                        <span class="value">14.0% p.a.</span>
+                    </div>
+                    <div class="details">
+                        <span class="label">Tenure</span>
+                        <span class="value">90 Days</span>
+                    </div>
+                    <div class="details">
+                        <span class="label">Processing Fee</span>
+                        <span class="value">₹6,000</span>
+                    </div>
+                    <span class="badge">Quick Disbursal</span>
+                </div>
+
+                <button class="btn" id="selectOfferBtn" disabled style="opacity: 0.5; cursor: not-allowed;">Select an Offer First</button>
+                <button class="btn btn-secondary" onclick="goToScreen('screen-analysis')">Back</button>
+            </div>
+        </div>
+
+        <!-- Screen 7: Document Upload -->
+        <div class="screen" id="screen-documents">
+            <div class="header">
+                <h1>Upload Documents</h1>
+                <p>Step 6 of 6</p>
+            </div>
+            <div class="content">
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: 100%"></div>
+                </div>
+
+                <div class="info-box">
+                    <p>Final step! Upload required documents for KYC verification.</p>
+                </div>
+
+                <div class="document-upload" onclick="uploadDoc('aadhaar')">
+                    <div class="icon">📄</div>
+                    <h3>Aadhaar Card</h3>
+                    <p>Click to upload or use DigiLocker</p>
+                </div>
+
+                <div class="document-upload" onclick="uploadDoc('pan')">
+                    <div class="icon">📄</div>
+                    <h3>PAN Card</h3>
+                    <p>Click to upload or use DigiLocker</p>
+                </div>
+
+                <div class="document-upload" onclick="uploadDoc('bank')">
+                    <div class="icon">🏦</div>
+                    <h3>Cancelled Cheque</h3>
+                    <p>For loan disbursement</p>
+                </div>
+
+                <div class="document-upload" onclick="uploadDoc('business')">
+                    <div class="icon">📋</div>
+                    <h3>Business Proof (Optional)</h3>
+                    <p>Shop license, GST certificate, etc.</p>
+                </div>
+
+                <button class="btn" onclick="goToScreen('screen-kyc')">Proceed to Video KYC</button>
+                <button class="btn btn-secondary" onclick="goToScreen('screen-offers')">Back</button>
+            </div>
+        </div>
+
+        <!-- Screen 8: Video KYC -->
+        <div class="screen" id="screen-kyc">
+            <div class="header">
+                <h1>Video KYC Verification</h1>
+                <p>Final Security Check</p>
+            </div>
+            <div class="content">
+                <div class="info-box">
+                    <p>Our representative will verify your identity via video call. This takes only 3-5 minutes.</p>
+                </div>
+
+                <div class="video-kyc-placeholder"></div>
+
+                <div class="feature-card">
+                    <h3>What You'll Need:</h3>
+                    <ul class="checklist">
+                        <li>Good lighting and clear camera</li>
+                        <li>Original Aadhaar card in hand</li>
+                        <li>Be in a quiet place</li>
+                        <li>Follow instructions from agent</li>
+                    </ul>
+                </div>
+
+                <button class="btn" onclick="startVideoKYC()">Start Video KYC Now</button>
+                <button class="btn btn-secondary" onclick="scheduleKYC()">Schedule for Later</button>
+            </div>
+        </div>
+
+        <!-- Screen 9: Application Processing -->
+        <div class="screen" id="screen-processing">
+            <div class="header">
+                <h1>Processing Your Application</h1>
+                <p>Please Wait...</p>
+            </div>
+            <div class="content">
+                <div class="ai-analysis">
+                    <h3>⏳ Application Status</h3>
+                    
+                    <div class="timeline">
+                        <div class="timeline-item completed">
+                            <h4>Documents Received</h4>
+                            <p>All documents verified successfully</p>
+                        </div>
+                        <div class="timeline-item completed">
+                            <h4>Video KYC Complete</h4>
+                            <p>Identity verification done</p>
+                        </div>
+                        <div class="timeline-item completed">
+                            <h4>Credit Check</h4>
+                            <p>CIBIL and bureau check completed</p>
+                        </div>
+                        <div class="timeline-item">
+                            <h4>Lender Approval (In Progress)</h4>
+                            <p>Expected in 2-4 hours</p>
+                        </div>
+                        <div class="timeline-item">
+                            <h4>Loan Disbursal</h4>
+                            <p>Money will be credited to your account</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="info-box">
+                    <p>📱 We'll notify you via SMS and WhatsApp once approved. Typical approval time: 4-24 hours.</p>
+                </div>
+
+                <button class="btn" onclick="goToScreen('screen-approved')">Simulate Approval (Demo)</button>
+            </div>
+        </div>
+
+        <!-- Screen 10: Loan Approved -->
+        <div class="screen" id="screen-approved">
+            <div class="header">
+                <h1>🎉 Congratulations!</h1>
+                <p>Your Loan is Approved</p>
+            </div>
+            <div class="content">
+                <div class="status-card">
+                    <h2>₹8,00,000</h2>
+                    <p>Approved Loan Amount</p>
+                </div>
+
+                <h3 style="margin-bottom: 15px; color: #333;">Loan Summary</h3>
+                <div class="summary-row">
+                    <span class="label">Lender</span>
+                    <span class="value">State Bank of India</span>
+                </div>
+                <div class="summary-row">
+                    <span class="label">Loan Amount</span>
+                    <span class="value">₹8,00,000</span>
+                </div>
+                <div class="summary-row">
+                    <span class="label">Interest Rate</span>
+                    <span class="value">11.5% p.a.</span>
+                </div>
+                <div class="summary-row">
+                    <span class="label">Tenure</span>
+                    <span class="value">90 Days</span>
+                </div>
+                <div class="summary-row">
+                    <span class="label">Processing Fee</span>
+                    <span class="value">₹5,000</span>
+                </div>
+                <div class="summary-row">
+                    <span class="label">Total Repayment</span>
+                    <span class="value">₹8,23,000</span>
+                </div>
+
+                <div class="info-box">
+                    <p>✅ Loan agreement sent to your email<br>
+                    ✅ E-Sign the agreement to proceed<br>
+                    ✅ Money will be credited within 2-4 hours after signing</p>
+                </div>
+
+                <button class="btn" onclick="goToScreen('screen-agreement')">Sign Loan Agreement</button>
+            </div>
+        </div>
+
+        <!-- Screen 11: Loan Agreement -->
+        <div class="screen" id="screen-agreement">
+            <div class="header">
+                <h1>Loan Agreement</h1>
+                <p>Please Review & Sign</p>
+            </div>
+            <div class="content">
+                <div style="max-height: 300px; overflow-y: scroll; border: 1px solid #e0e0e0; padding: 15px; border-radius: 8px; margin-bottom: 20px; font-size: 13px; line-height: 1.6;">
+                    <h4 style="margin-bottom: 10px;">LOAN AGREEMENT</h4>
+                    <p><strong>Between:</strong> State Bank of India (Lender) and [Your Business Name] (Borrower)</p>
+                    <p><strong>Date:</strong> [Today's Date]</p>
+                    
+                    <h5 style="margin-top: 15px; margin-bottom: 5px;">1. LOAN TERMS</h5>
+                    <p>Principal Amount: ₹8,00,000<br>
+                    Interest Rate: 11.5% per annum<br>
+                    Tenure: 90 days<br>
+                    Processing Fee: ₹5,000</p>
+                    
+                    <h5 style="margin-top: 15px; margin-bottom: 5px;">2. REPAYMENT</h5>
+                    <p>The borrower agrees to repay the loan amount along with interest as per the repayment schedule. Auto-debit facility will be set up for timely payments.</p>
+                    
+                    <h5 style="margin-top: 15px; margin-bottom: 5px;">3. DEFAULT</h5>
+                    <p>In case of default, penalty charges of 2% per month will be applicable. The lender reserves the right to initiate recovery proceedings.</p>
+                    
+                    <h5 style="margin-top: 15px; margin-bottom: 5px;">4. PREPAYMENT</h5>
+                    <p>Borrower can prepay the loan without any prepayment charges after 30 days from disbursal.</p>
+                    
+                    <p style="margin-top: 20px; font-size: 12px; color: #666;">This is a legally binding agreement. Please read all terms carefully.</p>
+                </div>
+
+                <div class="toggle-switch" style="margin-bottom: 20px;">
+                    <label style="margin-bottom: 0;">
+                        <input type="checkbox" id="agreeTerms"> I agree to all terms and conditions
+                    </label>
+                </div>
+
+                <button class="btn" onclick="signAgreement()">E-Sign Agreement</button>
+                <button class="btn btn-secondary" onclick="goToScreen('screen-approved')">Back</button>
+            </div>
+        </div>
+
+        <!-- Screen 12: Disbursement -->
+        <div class="screen" id="screen-disbursement">
+            <div class="header">
+                <h1>🚀 Loan Disbursed!</h1>
+                <p>Money is on the way</p>
+            </div>
+            <div class="content">
+                <div class="status-card">
+                    <h2>₹7,95,000</h2>
+                    <p>Net Amount (After ₹5,000 processing fee)</p>
+                </div>
+
+                <div class="feature-card">
+                    <h3>✅ Disbursement Complete</h3>
+                    <p><strong>Account Number:</strong> XXXX XXXX 4567</p>
+                    <p><strong>IFSC:</strong> SBIN0001234</p>
+                    <p><strong>Expected Credit:</strong> Within 2-4 hours</p>
+                    <p><strong>Reference ID:</strong> CS2025001234</p>
+                </div>
+
+                <div class="info-box">
+                    <p>💡 Tip: Use this loan wisely for your business growth. Set up auto-payment to avoid missing EMIs!</p>
+                </div>
+
+                <button class="btn" onclick="goToScreen('screen-repayment')">Setup Auto-Payment</button>
+                <button class="btn btn-secondary" onclick="goToScreen('screen-dashboard')">Go to Dashboard</button>
+            </div>
+        </div>
+
+        <!-- Screen 13: Auto-Payment Setup -->
+        <div class="screen" id="screen-repayment">
+            <div class="header">
+                <h1>Setup Auto-Payment</h1>
+                <p>Never Miss an EMI</p>
+            </div>
+            <div class="content">
+                <div class="repayment-card">
+                    <h3>📅 Repayment Schedule</h3>
+                    <div class="repayment-schedule">
+                        <div>
+                            <div class="date">Due: 15 Jan 2025</div>
+                            <div style="font-size: 12px; color: #666;">EMI 1 of 3</div>
+                        </div>
+                        <div class="amount">₹2,74,333</div>
+                    </div>
+                    <div class="repayment-schedule">
+                        <div>
+                            <div class="date">Due: 15 Feb 2025</div>
+                            <div style="font-size: 12px; color: #666;">EMI 2 of 3</div>
+                        </div>
+                        <div class="amount">₹2,74,333</div>
+                    </div>
+                    <div class="repayment-schedule">
+                        <div>
+                            <div class="date">Due: 15 Mar 2025</div>
+                            <div style="font-size: 12px; color: #666;">EMI 3 of 3</div>
+                        </div>
+                        <div class="amount">₹2,74,334</div>
+                    </div>
+                </div>
+
+                <h3 style="margin-bottom: 15px; color: #333;">Choose Auto-Payment Method</h3>
+
+                <div class="feature-card" onclick="selectPaymentMethod('nach')">
+                    <h3>🏦 Bank Auto-Debit (NACH)</h3>
+                    <p>Automatic deduction from your bank account</p>
+                </div>
+
+                <div class="feature-card" onclick="selectPaymentMethod('upi')">
+                    <h3>💳 UPI Auto-Pay</h3>
+                    <p>Auto-deduct from daily UPI receipts</p>
+                </div>
+
+                <div class="feature-card" onclick="selectPaymentMethod('settlement')">
+                    <h3>🛒 E-commerce Settlement</h3>
+                    <p>Deduct from Flipkart/Amazon payments</p>
+                </div>
+
+                <div class="info-box">
+                    <p>✨ Benefits: 0.5% interest discount, No late fees, Build better credit score</p>
+                </div>
+
+                <button class="btn" onclick="setupAutoPayment()">Setup Auto-Payment</button>
+                <button class="btn btn-secondary" onclick="goToScreen('screen-dashboard')">Skip for Now</button>
+            </div>
+        </div>
+
+        <!-- Screen 14: Dashboard -->
+        <div class="screen" id="screen-dashboard">
+            <div class="header">
+                <h1>My Dashboard</h1>
+                <p>Welcome back! 👋</p>
+            </div>
+            <div class="content">
+                <div class="feature-card" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none;">
+                    <h3 style="color: white;">Active Loan</h3>
+                    <h2 style="font-size: 32px; margin: 10px 0;">₹8,00,000</h2>
+                    <div style="display: flex; justify-content: space-between; margin-top: 15px; font-size: 13px;">
+                        <div>
+                            <div style="opacity: 0.8;">Outstanding</div>
+                            <div style="font-weight: 600; font-size: 16px;">₹8,23,000</div>
+                        </div>
+                        <div>
+                            <div style="opacity: 0.8;">Next EMI</div>
+                            <div style="font-weight: 600; font-size: 16px;">15 Jan</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="summary-row">
+                    <span class="label">Loan Account</span>
+                    <span class="value">CS2025001234</span>
+                </div>
+                <div class="summary-row">
+                    <span class="label">Lender</span>
+                    <span class="value">State Bank of India</span>
+                </div>
+                <div class="summary-row">
+                    <span class="label">Disbursed On</span>
+                    <span class="value">13 Oct 2024</span>
+                </div>
+                <div class="summary-row">
+                    <span class="label">Maturity Date</span>
+                    <span class="value">13 Jan 2025</span>
+                </div>
+
+                <h3 style="margin: 25px 0 15px 0; color: #333;">Quick Actions</h3>
+
+                <div class="feature-card" onclick="goToScreen('screen-repayment')">
+                    <h3>💰 Make Payment</h3>
+                    <p>Pay EMI or prepay loan</p>
+                </div>
+
+                <div class="feature-card" onclick="alert('Statement downloaded!')">
+                    <h3>📄 Download Statement</h3>
+                    <p>Get loan account statement</p>
+                </div>
+
+                <div class="feature-card" onclick="alert('NOC will be issued after full repayment')">
+                    <h3>📋 Request NOC</h3>
+                    <p>No Objection Certificate</p>
+                </div>
+
+                <div class="feature-card" onclick="goToScreen('screen-loan-purpose')">
+                    <h3>➕ Apply for New Loan</h3>
+                    <p>Need more credit? Apply now</p>
+                </div>
+
+                <button class="btn btn-secondary" onclick="goToScreen('screen-welcome')">Logout</button>
+            </div>
+        </div>
+
+        <!-- Screen 15: Login -->
+        <div class="screen" id="screen-login">
+            <div class="header">
+                <h1>Welcome Back</h1>
+                <p>Login to CreditSetu</p>
+            </div>
+            <div class="content">
+                <div class="logo">
+                    <div class="logo-text">💳 CreditSetu</div>
+                </div>
+
+                <div class="form-group">
+                    <label>Mobile Number</label>
+                    <input type="tel" placeholder="Enter registered mobile number">
+                </div>
+
+                <div class="form-group">
+                    <label>OTP</label>
+                    <input type="text" placeholder="Enter 6-digit OTP">
+                    <p style="font-size: 12px; color: #667eea; margin-top: 5px; cursor: pointer;">Resend OTP</p>
+                </div>
+
+                <button class="btn" onclick="goToScreen('screen-dashboard')">Login</button>
+                <button class="btn btn-secondary" onclick="goToScreen('screen-welcome')">Back to Home</button>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>🔒 Secured by 256-bit encryption | RBI Compliant | OCEN Powered</p>
+            <p style="margin-top: 5px;">© 2024 CreditSetu. All rights reserved.</p>
+        </div>
+    </div>
+
+    <script>
+        // Global variables
+        let selectedLanguage = 'en';
+        let selectedOffer = null;
+        let selectedPaymentMethod = null;
+        let uploadedDocs = {
+            aadhaar: false,
+            pan: false,
+            bank: false,
+            business: false
+        };
+
+        // Navigation function
+        function goToScreen(screenId) {
+            // Hide all screens
+            document.querySelectorAll('.screen').forEach(screen => {
+                screen.classList.remove('active');
+            });
+            
+            // Show target screen
+            document.getElementById(screenId).classList.add('active');
+            
+            // Scroll to top
+            window.scrollTo(0, 0);
+        }
+
+        // Language selection
+        document.querySelectorAll('.language-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                document.querySelectorAll('.language-btn').forEach(b => b.classList.remove('selected'));
+                this.classList.add('selected');
+                selectedLanguage = this.dataset.lang;
+            });
+        });
+
+        // Validation and navigation
+        function validateAndNext(currentScreen, nextScreen) {
+            const requiredFields = document.querySelectorAll(`#${currentScreen} input[required], #${currentScreen} select[required]`);
+            let isValid = true;
+            
+            // Simple validation (check if fields are filled)
+            const businessName = document.getElementById('businessName')?.value;
+            const businessType = document.getElementById('businessType')?.value;
+            const monthlyRevenue = document.getElementById('monthlyRevenue')?.value;
+            const mobileNumber = document.getElementById('mobileNumber')?.value;
+            
+            if (!businessName || !businessType || !monthlyRevenue || !mobileNumber) {
+                alert('Please fill all required fields');
+                return;
+            }
+            
+            goToScreen(nextScreen);
+        }
+
+        // Update loan details
+        function updateLoanDetails() {
+            const amount = document.getElementById('loanAmount')?.value;
+            const tenure = document.getElementById('loanTenure')?.value;
+            const purpose = document.getElementById('loanPurpose')?.value;
+            
+            if (amount && tenure && purpose) {
+                const monthlyRate = 0.14 / 12; // 14% annual
+                const months = Math.ceil(tenure / 30);
+                const emi = amount * monthlyRate * Math.pow(1 + monthlyRate, months) / (Math.pow(1 + monthlyRate, months) - 1);
+                
+                document.getElementById('estimatedEMI').textContent = '₹' + Math.round(emi).toLocaleString('en-IN');
+                document.getElementById('loanDetailsBox').style.display = 'block';
+            }
+        }
+
+        // Process data consent
+        function processDataConsent() {
+            // Simulate data fetching
+            const consentBank = document.getElementById('consentBank').checked;
+            const consentGST = document.getElementById('consentGST').checked;
+            const consentUPI = document.getElementById('consentUPI').checked;
+            
+            if (!consentBank && !consentGST && !consentUPI) {
+                alert('Please enable at least one data source for credit assessment');
+                return;
+            }
+            
+            // Show loading for 2 seconds then go to analysis
+            alert('Fetching your business data securely...');
+            setTimeout(() => {
+                goToScreen('screen-analysis');
+            }, 1000);
+        }
+
+        // Select loan offer
+        function selectOffer(element, offerId) {
+            // Remove previous selection
+            document.querySelectorAll('.loan-offer').forEach(offer => {
+                offer.classList.remove('selected');
+            });
+            
+            // Add selection to clicked offer
+            element.classList.add('selected');
+            selectedOffer = offerId;
+            
+            // Enable continue button
+            const btn = document.getElementById('selectOfferBtn');
+            btn.disabled = false;
+            btn.style.opacity = '1';
+            btn.style.cursor = 'pointer';
+            btn.onclick = function() { goToScreen('screen-documents'); };
+            btn.textContent = 'Continue with ' + element.querySelector('.bank-name').textContent;
+        }
+
+        // Document upload simulation
+        function uploadDoc(docType) {
+            const docName = {
+                'aadhaar': 'Aadhaar Card',
+                'pan': 'PAN Card',
+                'bank': 'Cancelled Cheque',
+                'business': 'Business Proof'
+            };
+            
+            if (confirm(`Upload ${docName[docType]}?\n(This is a simulation)`)) {
+                event.target.closest('.document-upload').classList.add('uploaded');
+                event.target.closest('.document-upload').innerHTML = `
+                    <div class="icon">✅</div>
+                    <h3>${docName[docType]}</h3>
+                    <p>Uploaded successfully</p>
+                `;
+                uploadedDocs[docType] = true;
+            }
+        }
+
+        // Start video KYC
+        function startVideoKYC() {
+            if (confirm('Start video call with CreditSetu representative?\n(This is a simulation)')) {
+                alert('Video KYC completed successfully! ✅');
+                goToScreen('screen-processing');
+            }
+        }
+
+        // Schedule KYC
+        function scheduleKYC() {
+            alert('KYC scheduled for tomorrow 10:00 AM. We\'ll send you a reminder via SMS and WhatsApp.');
+            goToScreen('screen-dashboard');
+        }
+
+        // Sign agreement
+        function signAgreement() {
+            const agreed = document.getElementById('agreeTerms').checked;
+            
+            if (!agreed) {
+                alert('Please agree to terms and conditions to proceed');
+                return;
+            }
+            
+            if (confirm('Proceed with e-Sign via Aadhaar OTP?')) {
+                alert('E-Signature captured successfully! ✅');
+                goToScreen('screen-disbursement');
+            }
+        }
+
+        // Select payment method
+        function selectPaymentMethod(method) {
+            selectedPaymentMethod = method;
+            alert(`${method.toUpperCase()} selected as auto-payment method`);
+        }
+
+        // Setup auto-payment
+        function setupAutoPayment() {
+            if (!selectedPaymentMethod) {
+                alert('Please select a payment method first');
+                return;
+            }
+            
+            alert('Auto-payment setup successful! ✅\nYou\'ll receive 0.5% interest discount.');
+            goToScreen('screen-dashboard');
+        }
+
+        // Initialize app
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('CreditSetu App Initialized');
+            
+            // Show welcome screen by default
+            goToScreen('screen-welcome');
+        });
+    </script>
+</body>
+</html>
